@@ -1,0 +1,1 @@
+add your text in str.js and run day{X}.js

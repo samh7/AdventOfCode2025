@@ -1,46 +1,40 @@
+// AOC 2025 - DAY 1 PART !
+// Author: Samh7 
+
 import text from "./str.js"
 
-function splitString(str) {
-    return str.trim().split('\n')
-}
-
-function getSignedNumber(str) {
-    const [letter, ...numbers] = str;
-    if (letter.toUpperCase() === 'L') {
-        numbers.unshift('-')
-    }
-    return +numbers.join('')
-}
-
-
 function getSignedNumbers(str) {
-    return str.map((s) => getSignedNumber(s))
+    return str.map((s) => {
+        // get first letter and the rest of the list
+        const [letter, ...numbers] = s;
+        if (letter.toUpperCase() === 'L') {
+            // add '-' to the start of the list
+            numbers.unshift('-')
+        }
+        // join to a string and then convert to a number
+        return +numbers.join('')
+    })
 }
 
+// get remainder as sum when value is > 100  or < 0
 function calculateSum(acc, curr) {
     let sum = acc + curr
-    if (sum < 0) {
-        sum %= 100
-    }
-
-    else if (sum > 99) {
-        sum %= 100
-    }
-
-    return sum
+    return (sum < 0) ? sum %= 100 : (sum > 99) ? sum %= 100 : sum
 }
-
-const splitTextList = splitString(text)
-
-const newWithStartNum = [50, ...getSignedNumbers(splitTextList)]
 
 let listForSums = []
 
-newWithStartNum.reduce((acc, curr) => {
-    const sum = calculateSum(acc, curr)
+const INITIAL_VALUE = 50
+
+const splitTextList = text.trim().split('\n')
+
+const signedNumbers = getSignedNumbers(splitTextList)
+
+signedNumbers.reduce((currentSum, currNum) => {
+    const sum = calculateSum(currentSum, currNum)
     listForSums.push(sum)
     return sum
-}, 0)
+}, INITIAL_VALUE)
 
 const password = listForSums.filter((num) => num === 0).length
 

@@ -25,8 +25,14 @@ export function calculateSum(acc, curr) {
     // for numbers like -100 and 100
     if (sum < -99 || sum > 99) {
         const num = Math.abs(sum)
+
+        //eg. 300 -> "300" -> ["3", ["0", "0"]]
         const [first, ...rest] = num.toString().split('')
+
+        //eg. password += num(3)
         password += +first
+        
+        //eg. sum = num(str(["0","0"]) // 0 
         sum = +rest.join("")
     }
 

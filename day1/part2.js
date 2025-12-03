@@ -20,36 +20,34 @@ let password = 0;
 
 // get remainder as sum when value is > 100  or < 0
 export function calculateSum(acc, curr) {
-    let sum = acc + curr
-
-    // for numbers like -100 and 100
-    if (sum < -99 || sum > 99) {
-        const num = Math.abs(sum)
-
-        //eg. 300 -> "300" -> ["3", ["0", "0"]]
-        const [first, ...rest] = num.toString().split('')
-
-        //eg. password += num(3)
-        password += +first
-        
-        //eg. sum = num(str(["0","0"]) // 0 
-        sum = +rest.join("")
+    // Count complete cycles (rotations > 100)
+    password += Math.floor(Math.abs(curr) / 100)
+    
+    // Get the actual rotation after removing complete cycles
+    const rotation = curr % 100
+    const prevDial = acc
+    let sum = acc + rotation
+    
+    // Handle wrapping and crossing zero
+    if (sum < 0) {
+        // Going left and wrapping around
+        if (prevDial > 0) {
+            password += 1  // Crossed zero
+        }
+        sum += 100  // Wrap to positive range
+    } else if (sum > 100) {
+        // Going right and wrapping around
+        password += 1  // Crossed zero
+        sum %= 100  // Wrap back
     }
-
-    // for numbers between 0 and -99
-    if (sum <= 0) {
+    
+    // Check if we landed exactly on zero
+    if (sum === 0) {
         password += 1
-        return sum % 100
     }
-
-    // numbers that were -ve and changes to +ve
-    if (sum > 0 && acc < 0) {
-        password += 1
-    }
-
+    
     return sum
 }
-
 
 const INITIAL_VALUE = 50
 

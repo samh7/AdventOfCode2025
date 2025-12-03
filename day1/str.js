@@ -1,5 +1,4 @@
-const text = `
-L5
+const text = `L5
 L37
 L32
 R5
@@ -4175,6 +4174,5 @@ L23
 R30
 R29
 R47
-L34
-`
+L34`
 export default text
